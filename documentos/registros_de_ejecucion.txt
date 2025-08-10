@@ -1,0 +1,193 @@
+Registro de ejecución de la instalación del YML de requirements
+
+
+
+[sysadmin@controller01 collections]$ ansible-galaxy collection install -r requirements.yaml
+Starting galaxy collection install process
+Nothing to do. All requested collections are already installed. If you want to reinstall them, consider using `--force`.
+
+
+
+----------
+
+
+
+Registro de ejecución del playbook nfs_setup.yml en el servidor centos01
+
+
+
+[sysadmin@controller01 playbooks]$ ansible-playbook -i ../inventories/inventory.ini nfs_setup.yml -K
+BECOME password: 
+
+PLAY [Play para la configuración de NFS] *********************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************
+ok: [centos01]
+
+TASK [Paquete NFS tiene que estar instalado] *****************************************************************************************************************
+changed: [centos01]
+
+TASK [Servicio NFS iniciado y habilitado] ********************************************************************************************************************
+changed: [centos01]
+
+TASK [Permitir conexiones] ***********************************************************************************************************************************
+changed: [centos01]
+
+TASK [Creación del directorio /var/nfs_shared] ***************************************************************************************************************
+changed: [centos01]
+
+TASK [Compartir el directorio por NFS] ***********************************************************************************************************************
+changed: [centos01]
+
+RUNNING HANDLER [Aplicar cambios NFS export] *****************************************************************************************************************
+changed: [centos01]
+
+PLAY RECAP ***************************************************************************************************************************************************
+centos01                   : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+
+
+
+----------
+
+
+
+Registro de ejecución del playbook nfs_setup.yml en el servidor centos01 ya habiendolo ejecutado previamente
+
+
+
+
+[sysadmin@controller01 playbooks]$ ansible-playbook -i ../inventories/inventory.ini nfs_setup.yml -K
+BECOME password: 
+
+PLAY [Play para la configuración de NFS] *********************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************
+ok: [centos01]
+
+TASK [Paquete NFS tiene que estar instalado] *****************************************************************************************************************
+ok: [centos01]
+
+TASK [Servicio NFS iniciado y habilitado] ********************************************************************************************************************
+ok: [centos01]
+
+TASK [Permitir conexiones] ***********************************************************************************************************************************
+ok: [centos01]
+
+TASK [Creación del directorio /var/nfs_shared] ***************************************************************************************************************
+ok: [centos01]
+
+TASK [Compartir el directorio por NFS] ***********************************************************************************************************************
+ok: [centos01]
+
+PLAY RECAP ***************************************************************************************************************************************************
+centos01                   : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+
+----------
+
+
+
+Registro de ejecución del playbook hardening.yml en el servidor ubuntu01
+
+
+
+[sysadmin@controller01 playbooks]$ ansible-playbook -i ../inventories/inventory.ini hardening.yml -K
+BECOME password: 
+[WARNING]: Collection community.general does not support Ansible version 2.14.18
+
+PLAY [Play de hardening de servidores Ubuntu] ****************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Actualizar sistema] ************************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Instalar el paquete ufw] *******************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Bloquear contenido entrante en ufw] ********************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Permitir SSH en ufw] ***********************************************************************************************************************************
+changed: [ubuntu01]
+
+TASK [Habilitar el servicio ufw] *****************************************************************************************************************************
+changed: [ubuntu01]
+
+TASK [Permitinr login con clave pública] *********************************************************************************************************************
+changed: [ubuntu01]
+
+TASK [Denegar el login como root] ****************************************************************************************************************************
+changed: [ubuntu01]
+
+TASK [Instalar fail2ban] *************************************************************************************************************************************
+changed: [ubuntu01]
+
+TASK [Bloquear intentos fallidos de conexión SSH] ************************************************************************************************************
+changed: [ubuntu01]
+
+TASK [Habilitar y activar fail2ban] **************************************************************************************************************************
+ok: [ubuntu01]
+
+RUNNING HANDLER [Reiniciar SSH] ******************************************************************************************************************************
+changed: [ubuntu01]
+
+RUNNING HANDLER [Reiniciar fail2ban] *************************************************************************************************************************
+changed: [ubuntu01]
+
+PLAY RECAP ***************************************************************************************************************************************************
+ubuntu01                   : ok=13   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
+
+
+
+----------
+
+
+
+Registro de ejecución del playbook hardening.yml en el servidor ubuntu01 ya habiendolo ejecutado previamente
+
+
+
+[sysadmin@controller01 playbooks]$ ansible-playbook -i ../inventories/inventory.ini hardening.yml -K
+BECOME password: 
+[WARNING]: Collection community.general does not support Ansible version 2.14.18
+
+PLAY [Play de hardening de servidores Ubuntu] ****************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Actualizar sistema] ************************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Instalar el paquete ufw] *******************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Bloquear contenido entrante en ufw] ********************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Permitir SSH en ufw] ***********************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Habilitar el servicio ufw] *****************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Permitinr login con clave pública] *********************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Denegar el login como root] ****************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Instalar fail2ban] *************************************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Bloquear intentos fallidos de conexión SSH] ************************************************************************************************************
+ok: [ubuntu01]
+
+TASK [Habilitar y activar fail2ban] **************************************************************************************************************************
+ok: [ubuntu01]
+
+PLAY RECAP ***************************************************************************************************************************************************
+ubuntu01                   : ok=11   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
