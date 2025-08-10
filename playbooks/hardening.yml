@@ -1,0 +1,90 @@
+---
+- name: Play de hardening de servidores Ubuntu
+  hosts: ubuntu
+  become: true
+
+  tasks:
+
+  - name: Actualizar sistema
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+      update_cache: true
+    notify: Reiniciar sistema
+
+  - name: Instalar el paquete ufw
+    ansible.builtin.apt:
+      name: ufw
+      state: present
+
+  - name: Bloquear contenido entrante en ufw
+    community.general.ufw:
+      direction: incoming
+      policy: deny
+
+  - name: Permitir SSH en ufw
+    community.general.ufw:
+      name: OpenSSH
+      rule: allow
+
+  - name: Habilitar el servicio ufw
+    community.general.ufw:
+      state: enabled
+
+  - name: Permitinr login con clave pública
+    ansible.builtin.lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: '^#PasswordAuthentication'
+      line: PasswordAuthentication no
+    notify: Reiniciar SSH
+        
+
+  - name: Denegar el login como root
+    ansible.builtin.lineinfile:
+      path: /etc/ssh/ssh_config
+      insertafter: '^#PermitRootLogin'
+      line: PermitRootLogin no
+    notify: Reiniciar SSH
+
+  - name: Instalar fail2ban
+    ansible.builtin.apt:
+      name: fail2ban
+      state: present
+
+  - name: Bloquear intentos fallidos de conexión SSH
+    ansible.builtin.copy:
+      dest: /etc/fail2ban/jail.local
+      content: |
+        [sshd]
+        enabled = true
+        port = ssh
+        maxretry = 3
+        findtime = 600
+        bantime = 3600
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+    notify: Reiniciar fail2ban
+
+  - name: Habilitar y activar fail2ban
+    ansible.builtin.systemd:
+      name: fail2ban
+      state: started
+      enabled: yes
+    when: ansible_check_mode == false
+
+  handlers:
+
+  - name: Reiniciar sistema
+    ansible.builtin.reboot:
+
+  - name: Reiniciar SSH
+    ansible.builtin.systemd_service:
+      name: ssh
+      state: restarted
+
+  - name: Reiniciar fail2ban
+    ansible.builtin.systemd_service:
+      name: fail2ban
+      state: restarted
+    when: ansible_check_mode == false
