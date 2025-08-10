@@ -1,0 +1,4 @@
+https://docs.ansible.com/ansible/latest/getting_started/introduction.html
+https://www.redhat.com/es/topics/automation/learning-ansible-tutorial
+https://www.redhat.com/es/topics/automation-and-management/que-son-y-como-funcionan-los-playbooks-de-ansible
+https://www.redhat.com/es/topics/automation-and-management/modulos-de-ansible-que-son-y-como-funcionan
