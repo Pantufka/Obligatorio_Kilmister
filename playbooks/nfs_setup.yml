@@ -1,0 +1,48 @@
+---
+- name: Play para la configuración de NFS
+  hosts: centos
+  become: yes
+
+  tasks:
+
+  - name: Paquete NFS tiene que estar instalado
+    ansible.builtin.dnf:
+      name: nfs-utils
+      state: present
+
+  - name: Servicio NFS iniciado y habilitado
+    ansible.builtin.service:
+      name: nfs-server
+      state: started
+      enabled: yes
+    when: ansible_check_mode == false
+
+  - name: Permitir conexiones
+    ansible.posix.firewalld:
+      port: 2049/tcp
+      state: enabled
+      permanent: yes
+      immediate: yes
+
+  - name: Creación del directorio /var/nfs_shared
+    ansible.builtin.file:
+      path: /var/nfs_shared
+      state: directory
+      owner: nobody
+      group: nobody
+      mode: u=rwx,g=rwx,o=rwx
+
+  - name: Compartir el directorio por NFS
+    ansible.builtin.copy:
+      dest: /etc/exports
+      content: "/var/nfs_shared *(rw,sync,no_subtree_check)"
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+    notify: Aplicar cambios NFS export
+
+  handlers:
+
+  - name: Aplicar cambios NFS export
+    ansible.builtin.command: exportfs -r
+    listen: Aplicar cambios NFS export
