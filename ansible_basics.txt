@@ -1,0 +1,9 @@
+1. Ansible es un motor open source que permite automatizar procesos informáticos, reduciiondo la complejidad y permitiendo que sea ejecutado en cualquier lugar. Algunas actividades que sea pueden realizar con Ansible son la instalación de software, la automatización de tareas cotidianas, la aplicación de parches a los sistemas u organizar flujos de trabajo complejos.
+
+2. Un playbook contiene por lo menos un play y sirve para definir el estado deseado de un sistema. Los plays son conjuntos ordenador de tareas que se ejecutan en las selecciones del host desde el archivo de inventario. Esas tareas realizan llamadas a los módulos de ansible, siendo estos los que se utilizan para realizar las tareas de automatización en Ansible.
+
+3. Los inventarios contienen una lista de hosts para saber qué máquinas serán gestionadas, una lista de variables asociadas a esos hosts como también una lista grupos, agrupación de grupos o relaciones entre grupos padre/hijo.
+
+4. Un módulo es un programa pequeño que lleva a cabo tareas en un equipo local o en un host remoto. Se expresan por código y contienen metadatos que definen el momento y el lugar en los que se ejecuta una tarea de automatización y los usuarios que pueden hacerlo. Un ejemplo de un módulo, puede ser el módulo dnf (ansible.builtin.dnf) que instala, actualiza y elimina los paquetes y grupos con dnf.
+
+5. Ansible cuenta con ciertas ventajas ante otros métodos de automización como puede ser la sencillez, dado que los playbooks utilizan la sintaxis YAML que es sencilla para codear, es un sistema descentralizado que utiliza SSH con credenciales del mismo sistema para acceder a las máquinas remotas. Es escalable y flexible ya que automatiza a traves de un diseño que admite una aplia gama de sistemas operativos, plataformas en la nuve y dispositivos de red, entre otros.
