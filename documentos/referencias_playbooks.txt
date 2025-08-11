@@ -1,0 +1,29 @@
+Referencias sobre el desarrollo y despliegue de los playbooks
+
+https://docs.ansible.com/ansible/latest/collections/community/general/ufw_module.html
+https://docs.ansible.com/ansible/latest/collections/ansible/posix/firewalld_module.html
+
+Consultas al ChatGPT sobre el desarrollo y despliegue de los playbooks
+
+1. Estoy generando un playbook para correr en CentOS en donde ya instalé el servidor NFS, verifiqué que el servicio NFS 
+esté iniciado y funcionando y tambien hice que el firewall permita conexiones al puerto 2049. A ese mismo playbook le tengo
+que agregar lo siguiente.
+
+- Exista el directorio /var/nfs_shared, que pertenece al usuario/grupo nobody/nobody y tiene permisos 777
+- El directorio está compartido por NFS.
+- Debe haber un handler que actualice relea el archivo /etc/exports si este cambia.
+
+Generame el resto del playbook detallando cada renglón que se genere y su funcionamiento.
+
+2. Cuando intento correr el --check del playbook, me da el error "Could not find the requested service nfs-server: host", por qué?
+
+3. Tengo que generar un segundo playbook en el cual se me pide lo siguiente:
+
+- Que esté habilitado ufw, bloqueando todo el tráfico entrante y permitiendo solo ssh.
+- Que solo se pueda hacer login con clave pública
+- Que esté instalado fail2ban y bloquee intentos fallidos de conexión SSH.
+
+Generame el playbook detallando cada renglón que se genere y su funcionamiento.
+
+4. Cuando hago el --check del playbook me sale error "Could not find the requested service fail2ban: host". Eso es como en el caso
+anterior que al no estar instalado no se puede reiniciar? Se arregla con when: ansible_check_mode == false?
