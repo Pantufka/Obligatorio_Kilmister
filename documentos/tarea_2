@@ -1,0 +1,68 @@
+Se corre el comando ansible-inventory -i inventory.ini --list
+
+[sysadmin@controller01 inventories]$ ansible-inventory -i inventory.ini --list
+{
+    "_meta": {
+        "hostvars": {
+            "centos01": {
+                "ansible_host": "192.168.1.11",
+                "ansible_user": "sysadmin"
+            },
+            "ubuntu01": {
+                "ansible_host": "192.168.1.12",
+                "ansible_user": "sysadmin"
+            }
+        }
+    },
+    "all": {
+        "children": [
+            "ungrouped",
+            "linux",
+            "webserver"
+        ]
+    },
+    "centos": {
+        "hosts": [
+            "centos01"
+        ]
+    },
+    "linux": {
+        "children": [
+            "centos",
+            "ubuntu"
+        ]
+    },
+    "ubuntu": {
+        "hosts": [
+            "ubuntu01"
+        ]
+    },
+    "webserver": {
+        "hosts": [
+            "centos01"
+        ]
+    }
+}
+
+
+-------------------------------------------
+
+
+Se corre el comando ansible all -i inventory.ini -m ping
+
+
+[sysadmin@controller01 inventories]$ ansible all -i inventory.ini -m ping
+centos01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+ubuntu01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
